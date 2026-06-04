@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <button onclick="toggleDarkMode()">🌙</button>
+    
+    <h1>To Do App</h1>
+
+    <h3 id="taskCount">Tasks:0</h3>
+
+    <h3 id="completedCount"></h3>
+
+    <h3 id="progressText">0% Complete</h3>
+
+<div id="progressContainer">
+
+<div id="progressBar"></div>
+
+</div>
+
+    <input type="text" id="searchInput" placeholder="Search tasks..."onkeyup="searchTasks()">
+
+    <input id="taskInput" type="text" placeholder="Enter task">
+
+    <input type="date"id="dueDate">
+
+
+
+    <select id="filterCategory" onchange="filterTasks()">
+
+<option value="All">All</option>
+
+<option value="Learning">Learning</option>
+
+<option value="Work">Work</option>
+
+<option value="Personal">Personal</option>
+
+<option value="Travel">Travel</option>
+
+</select>
+
+
+    <select id="category">
+
+<option value="Learning">
+Learning
+</option>
+
+<option value="Work">
+Work
+</option>
+
+<option value="Personal">
+Personal
+</option>
+
+<option value="Travel">
+Travel
+</option>
+
+</select>
+
+    <button onclick="addTask()">add</button>
+
+    <button onclick="clearAllTasks()">Clear All</button>
+
+
+
+    <Ul id="taskList"></Ul>
+
+    <script src="script.js"></script>
+    
+</body>
+</html>
+ 

@@ -1,0 +1,116 @@
+body{
+
+text-align:center;
+
+margin-top:100px;
+
+}
+
+
+
+input{
+
+padding:10px;
+
+width:250px;
+
+}
+
+.dark{
+
+background:black;
+
+color:white;
+
+}
+
+button{
+
+padding:10px;
+
+margin:5px;
+
+}
+
+
+
+li{
+
+list-style:none;
+
+margin:15px auto;
+
+padding:10px;
+
+width:300px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+border:1px solid gray;
+
+border-radius:10px;
+
+}
+
+.task-info{
+
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+
+}
+
+.category{
+
+    font-size:16px;
+    opacity:0.8;
+
+}
+
+#progressContainer{
+
+width:300px;
+
+height:25px;
+
+border:1px solid white;
+
+margin:20px auto;
+
+border-radius:20px;
+
+overflow:hidden;
+
+}
+
+#progressBar{
+
+height:100%;
+
+width:0%;
+
+background:green;
+
+transition:0.5s;
+
+}
+
+
+ul{
+
+padding:0;
+
+}
+
+
+li button{
+
+padding:5px 10px;
+
+font-size:16px;
+
+}
