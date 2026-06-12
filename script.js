@@ -1,11 +1,18 @@
+async function loadTasks(){
 
-let tasks =
-JSON.parse(
-localStorage.getItem("tasks")
-)
-|| []
+    const response = await fetch(
+        "http://127.0.0.1:5000/tasks"
+    )
 
-renderTasks()
+    tasks = await response.json()
+
+    renderTasks()
+
+}
+
+let tasks = []
+
+loadTasks()
 
 if(
 
@@ -86,181 +93,204 @@ task.style.display =
 
 }
 
-function addTask(){
+async function addTask(){
 
-let task =
-document.getElementById(
-"taskInput"
-).value
+    let task =
+    document.getElementById(
+    "taskInput"
+    ).value
 
-let category =
-
-document.getElementById(
-"category"
-).value
-
-let dueDate =
-
-document.getElementById(
+    let category =
+    document.getElementById(
+    "category"
+    ).value
+  
+    let dueDate =
+    document.getElementById(
 "dueDate"
-).value
+    ).value
 
-if(task === ""){
+    if(task === ""){
 
-alert("Enter a task 😭")
+        alert("Enter a task 😭")
 
-return
+        return
 
-}
+    }
 
+    const response = await fetch(
 
-tasks.push({
+        "http://127.0.0.1:5000/add-task",
 
-    text: task,
+        {
 
-    category: category,
+            method: "POST",
 
-    dueDate: dueDate,
+            headers: {
 
-    completed: false
+                "Content-Type":
+                "application/json"
 
-})
+            },
 
-saveTasks()
+            body: JSON.stringify({
 
-renderTasks()
+                text: task,
+                category: category,
+                dueDate: dueDate
 
-
-document.getElementById(
-"taskInput"
-).value = ""
-
-}
-
-
-function saveTasks(){
-
-localStorage.setItem(
-
-"tasks",
-
-JSON.stringify(tasks)
-
-)
-
-}
-
-
-function deleteTask(button){
-
-    let text =
-
-    button.parentElement
-   .querySelector(".task-text")
-    .innerText
-
-
-    tasks =
-
-    tasks.filter(function(task){
-
-        return task.text !== text
-
-    })
-
-
-    saveTasks()
-
-    renderTasks()
-
-}
-
-function editTask(button){
-
-let oldText =
-
-button.parentElement
-.querySelector(
-".task-text"
-)
-.innerText
-
-let newText =
-
-prompt(
-"Edit task:",
-oldText
-)
-
-if(newText){
-
-tasks.forEach(function(task){
-
-if(task.text === oldText){
-
-task.text = newText
-
-}
-
-})
-
-saveTasks()
-
-renderTasks()
-
-}
-
-}
-
-
-
-function completeTask(button){
-
-    let text =
-
-    button.parentElement
-    .querySelector(".task-text")
-    .innerText
-
-
-    tasks.forEach(function(task){
-
-        if(task.text === text){
-
-            task.completed =
-            !task.completed
+            })
 
         }
 
-    })
+    )
 
+    const data =
+    await response.json()
 
-    saveTasks()
+    console.log(data)
 
-    renderTasks()
+    await loadTasks()
 
-}
-
-function clearAllTasks(){
-
-let answer =
-
-confirm(
-"Delete all tasks?"
-)
-
-
-if(answer){
-
-tasks = []
-
-saveTasks()
-
-renderTasks()
+    document.getElementById(
+    "taskInput"
+    ).value = ""
 
 }
 
+
+async function deleteTask(taskId){
+
+    const response = await fetch(
+
+        "http://127.0.0.1:5000/delete-task/" + taskId,
+
+        {
+            method: "DELETE"
+        }
+
+    )
+
+    const data = await response.json()
+
+    console.log(data)
+
+    await loadTasks()
+
 }
+
+async function editTask(taskId){
+
+    let newText = prompt("Enter new task:");
+
+    if(newText === null || newText.trim() === ""){
+
+        return;
+
+    }
+
+    let newCategory = prompt("Enter new category:");
+
+    if(newCategory === null || newCategory.trim() === ""){
+
+        return;
+
+    }
+
+    let newDueDate = prompt("Enter new due date (YYYY-MM-DD):");
+
+    if(newDueDate === null || newDueDate.trim() === ""){
+
+        return;
+
+    }
+
+    const response = await fetch(
+
+        "http://127.0.0.1:5000/edit-task/" + taskId,
+
+        {
+
+            method: "PATCH",
+
+            headers: {
+
+                "Content-Type": "application/json"
+
+            },
+
+            body: JSON.stringify({
+
+                text: newText,
+
+                category: newCategory,
+
+                dueDate: newDueDate
+
+            })
+
+        }
+
+    );
+
+    const data = await response.json();
+
+    console.log(data);
+
+    await loadTasks();
+
+}
+
+
+async function completeTask(taskId){
+
+    const response = await fetch(
+
+        "http://127.0.0.1:5000/complete-task/" + taskId,
+
+        {
+            method: "PATCH"
+        }
+
+    )
+
+    const data = await response.json()
+
+    console.log(data)
+
+    await loadTasks()
+
+}
+
+async function clearAllTasks(){
+
+    let answer = confirm(
+        "Delete all tasks?"
+    );
+
+    if(!answer){
+
+        return;
+    }
+
+    const response = await fetch(
+
+        "http://127.0.0.1:5000/clear-tasks",
+
+        {
+            method: "DELETE"
+        }
+
+    );
+
+    const data = await response.json();
+
+    console.log(data);
+
+    await loadTasks();
+
+}
+
 
 function filterTasks(){
 
@@ -426,11 +456,11 @@ task.dueDate +
 
 '</div>' +
 
-' <button onclick="completeTask(this)">✔</button> ' +
+' <button onclick="completeTask(' + task.id + ')">✔</button> ' +
 
-' <button onclick="editTask(this)">✏️</button> ' +
+' <button onclick="editTask(' + task.id + ')">✏️</button> ' +
 
-' <button onclick="deleteTask(this)">❌</button>'
+' <button onclick="deleteTask(' + task.id + ')">❌</button>';
 
 let today =
 new Date()
