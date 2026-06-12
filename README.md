@@ -1,17 +1,50 @@
-# To Do App Pro
+# Full-Stack Task Manager
 
-A productivity app built with HTML, CSS, and JavaScript.
+A full-stack task management application built with HTML, CSS, JavaScript, Python, and Flask.
 
 ## Features
 
 - Add Tasks
 - Edit Tasks
-- Delete Tasks
 - Complete Tasks
+- Delete Individual Tasks
+- Clear All Tasks
 - Search Tasks
-- Filter by Category
+- Filter Tasks by Category
 - Due Dates
-- Overdue Task Alerts
-- Progress Bar
+- Progress Tracking
 - Dark Mode
-- Local Storage
+- Flask REST API Integration
+
+## Technologies Used
+
+- HTML
+- CSS
+- JavaScript
+- Python
+- Flask
+- Git
+- GitHub
+
+## API Endpoints
+
+- GET /tasks
+- POST /add-task
+- PATCH /complete-task/<id>
+- PATCH /edit-task/<id>
+- DELETE /delete-task/<id>
+- DELETE /clear-tasks
+
+## Project Structure
+
+TO-DO-APP/
+├── backend/
+│   └── app.py
+├── index.html
+├── script.js
+├── style.css
+└── README.md
+
+## Author
+
+Favour Chinonyerem Ozomagbo
